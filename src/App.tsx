@@ -1,8 +1,8 @@
-import AddCompanyForm from "./Components/AddCompanyForm";
+import Dashboard from "./Components/Dashboard";
 import "./App.css";
 
 function App() {
-  return <AddCompanyForm />;
+  return <Dashboard />;
 }
 
 export default App;
