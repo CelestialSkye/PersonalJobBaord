@@ -1,6 +1,7 @@
 import AddCompanyForm from "./AddCompanyForm";
 import { useState } from "react";
 import { type Company } from "../types";
+// import { supabase } from '../lib/supabase';
 
 const Dashboard = () => {
   const [companies, setCompanies] = useState<Company[]>([]);

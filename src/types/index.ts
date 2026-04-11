@@ -2,7 +2,8 @@ export type JobStatus = "Watching" | "Applied" | 'Interviewing' | "Rejected";
 export type ConnestionType = "Alumni" | "Personal" | "Cold" | "None"; 
 
 export interface Company {
-    id:string;
+    id?:string;
+    created_at?: string; 
     name:string;
     url:string;
     location:string;

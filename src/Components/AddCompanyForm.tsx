@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { type Company } from "../types";
+import { supabase } from "../lib/supabase";
 
 interface Props {
   onAdd: (company: Company) => void;
@@ -13,21 +14,36 @@ const AddCompanyForm = ({ onAdd, onClose }: Props) => {
   const [status, setStatus] = useState<Company["status"]>("Watching");
   const [connection, setConnection] = useState<Company["connection"]>("None");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newCompany: Company = {
-      id: crypto.randomUUID(),
-      name,
-      url,
-      location,
-      status,
-      connection,
-      lastChecked: Date.now(),
-    };
+    const { data, error } = await supabase
+      .from("companies")
+      .insert([
+        {
+          name,
+          url,
+          location,
+          status,
+          connection,
+          lastChecked: Date.now(),
+        },
+      ])
+      .select();
 
-    onAdd(newCompany);
-    onClose();
+    if (error) {
+      alert("Error" + error.message);
+      return;
+    }
+
+    if (data && data.length > 0) {
+      setName("");
+      setUrl("");
+      setLocation("");
+
+      onAdd(data[0]);
+      onClose();
+    }
   };
 
   return (
