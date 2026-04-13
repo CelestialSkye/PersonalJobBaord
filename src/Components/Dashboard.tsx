@@ -1,17 +1,106 @@
 import AddCompanyForm from "./AddCompanyForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { type Company } from "../types";
-// import { supabase } from '../lib/supabase';
+import { supabase } from "../lib/supabase";
+import CompanyCardView from "./CompanyCard";
 
 const Dashboard = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  //a search useState
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleAddCompany = (newCompany: Company) => {
+    setCompanies((prev) => [newCompany, ...prev]);
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      const { data, error } = await supabase
+        .from("companies")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching companies", error);
+      } else {
+        setCompanies(data || []);
+      }
+    };
+
+    fetchCompanies();
+  }, []);
+  // if search query is empty display the whole list if not display whatever company name is in searchquery
+  const displayList =
+    searchQuery === ""
+      ? companies
+      : companies.filter((c) =>
+          c.name.toLowerCase().includes(searchQuery.toLowerCase()),
+        );
 
   return (
-    <div>
-      <AddCompanyForm
-        onAdd={(newCompany) => setCompanies([...companies, newCompany])}
-        onClose={() => console.log("Modal closed!")}
-      />
+    <div className="max-w-4xl mx-auto p-6">
+      <header className="flex justify-between items-center mb-10">
+        <h1 className="text-5xl font-black uppercase tracking-tighter">
+          Tracker
+        </h1>
+
+        {/* toggle button */}
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-black text-white p-4 font-bold hover:scale-105 transition-transform"
+        >
+          + ADD NEW
+        </button>
+        {/* Search input
+
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search"
+          className="border-4 black"
+        /> */}
+      </header>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white border-4 border-black p-8 w-full max-w-md shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+            <div className="flex justify-between mb-4">
+              <h2 className="font-black uppercase">Add New Company</h2>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="font-bold"
+              >
+                {" "}
+                [X]{" "}
+              </button>
+            </div>
+
+            <AddCompanyForm
+              onAdd={handleAddCompany}
+              onClose={() => setIsModalOpen(false)}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* companies list */}
+      <div>
+        {/* Search input box */}
+        <input
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="SEARCH..."
+        />
+
+        <div className="list-container">
+          {displayList.map((company) => (
+            <CompanyCardView key={company.id} company={company} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

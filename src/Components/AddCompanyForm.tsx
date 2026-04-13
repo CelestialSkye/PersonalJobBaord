@@ -54,6 +54,7 @@ const AddCompanyForm = ({ onAdd, onClose }: Props) => {
         value={name}
         onChange={(e) => setName(e.target.value)}
         className="w-full p-2 border rounded"
+        placeholder="Company Name"
       />
 
       <input
@@ -61,6 +62,7 @@ const AddCompanyForm = ({ onAdd, onClose }: Props) => {
         value={url}
         onChange={(e) => setUrl(e.target.value)}
         className="w-full p-2 border rounded"
+        placeholder="URL"
       />
 
       <input
@@ -68,6 +70,7 @@ const AddCompanyForm = ({ onAdd, onClose }: Props) => {
         value={location}
         onChange={(e) => setLocation(e.target.value)}
         className="w-full p-2 border rouneded"
+        placeholder="Location"
       />
 
       <div className="flex flex-col">
