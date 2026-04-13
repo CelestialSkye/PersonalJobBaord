@@ -7,6 +7,7 @@ const CompanyCard = ({ company }: { company: Company }) => {
         <div>
           <h3 className="font-bold text-lg">{company.name}</h3>
           <p className="text-xs text-gray-600">{company.location}</p>
+          <p className="text-s text-black">{company.connection}</p>
         </div>
 
         <div className="bg-black text-white px-2 py-1 text-xs font-bold uppercase">

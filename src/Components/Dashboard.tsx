@@ -39,6 +39,21 @@ const Dashboard = () => {
           c.name.toLowerCase().includes(searchQuery.toLowerCase()),
         );
 
+  //Dashboard geneal information
+  const totalCompanies = companies.length;
+  const appliedComapnes = companies.filter(
+    (c) => c.status === "Applied",
+  ).length;
+  const watchingCompanies = companies.filter(
+    (c) => c.status === "Watching",
+  ).length;
+  const rejectedCompanies = companies.filter(
+    (c) => c.status === "Rejected",
+  ).length;
+  const interviewingCompanies = companies.filter(
+    (c) => c.status === "Interviewing",
+  ).length;
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <header className="flex justify-between items-center mb-10">
@@ -87,6 +102,12 @@ const Dashboard = () => {
       )}
 
       {/* companies list */}
+      <h1>Total Comapnies {totalCompanies}</h1>
+      <h1>Applied Comapnies {appliedComapnes}</h1>
+      <h1>Watching Comapnies {watchingCompanies}</h1>
+      <h1>Interviewing Comapnies {interviewingCompanies}</h1>
+      <h1>Rejected Comapnies {rejectedCompanies}</h1>
+
       <div>
         {/* Search input box */}
         <input
