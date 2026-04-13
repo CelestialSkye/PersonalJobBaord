@@ -5,44 +5,64 @@ import { supabase } from "../lib/supabase";
 interface Props {
   onAdd: (company: Company) => void;
   onClose: () => void;
+  initialData: Company | null;
+  onUpdate: (company: Company) => void;
 }
 
-const AddCompanyForm = ({ onAdd, onClose }: Props) => {
-  const [name, setName] = useState("");
-  const [url, setUrl] = useState("");
-  const [location, setLocation] = useState("");
-  const [status, setStatus] = useState<Company["status"]>("Watching");
-  const [connection, setConnection] = useState<Company["connection"]>("None");
+const AddCompanyForm = ({ onAdd, onClose, initialData, onUpdate }: Props) => {
+  const [name, setName] = useState(initialData?.name || "");
+  const [url, setUrl] = useState(initialData?.url || "");
+  const [location, setLocation] = useState(initialData?.location || "");
+  const [status, setStatus] = useState<Company["status"]>(
+    initialData?.status || "Watching",
+  );
+  const [connection, setConnection] = useState<Company["connection"]>(
+    initialData?.connection || "None",
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { data, error } = await supabase
-      .from("companies")
-      .insert([
-        {
-          name,
-          url,
-          location,
-          status,
-          connection,
-          lastChecked: Date.now(),
-        },
-      ])
-      .select();
+    const payload = {
+      name,
+      url,
+      location,
+      status,
+      connection,
+      lastChecked: Date.now(),
+    };
 
-    if (error) {
-      alert("Error" + error.message);
-      return;
-    }
+    if (initialData?.id) {
+      const { data, error } = await supabase
+        .from("companies")
+        .update(payload)
+        .eq("id", initialData.id)
+        .select();
 
-    if (data && data.length > 0) {
-      setName("");
-      setUrl("");
-      setLocation("");
+      if (error) {
+        alert("Error: " + error.message);
+        return;
+      }
 
-      onAdd(data[0]);
-      onClose();
+      if (data && data.length > 0) {
+        onUpdate(data[0]);
+        onClose();
+      }
+    } else {
+      const { data, error } = await supabase
+        .from("companies")
+        .insert([payload])
+        .select();
+
+      if (error) {
+        alert("Error: " + error.message);
+        return;
+      }
+
+      if (data && data.length > 0) {
+        onAdd(data[0]);
+        onClose();
+      }
     }
   };
 

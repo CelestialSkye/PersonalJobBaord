@@ -1,6 +1,11 @@
 import { type Company } from "../types";
 
-const CompanyCard = ({ company }: { company: Company }) => {
+type Props = {
+  company: Company;
+  onEdit: (company: Company) => void;
+};
+
+const CompanyCard = ({ company, onEdit }: Props) => {
   return (
     <div className="border-2 border-black p-4 bg-white mb-2">
       <div className="flex justify-between items-center">
@@ -15,13 +20,12 @@ const CompanyCard = ({ company }: { company: Company }) => {
         </div>
       </div>
 
-      <a
-        href={company.url}
-        target="_blank"
-        className="text-xs underline text-blue-600 mt-2 block"
+      <button
+        onClick={() => onEdit(company)}
+        className="mt-2 text-xs underline text-blue-600"
       >
-        Visit Link
-      </a>
+        Edit
+      </button>
     </div>
   );
 };

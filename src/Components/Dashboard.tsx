@@ -9,6 +9,8 @@ const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   //a search useState
   const [searchQuery, setSearchQuery] = useState("");
+  //editing company details
+  const [editingCompany, setEditingCompany] = useState<Company | null>(null);
 
   const handleAddCompany = (newCompany: Company) => {
     setCompanies((prev) => [newCompany, ...prev]);
@@ -54,6 +56,19 @@ const Dashboard = () => {
     (c) => c.status === "Interviewing",
   ).length;
 
+  //editing company state
+  const handleEditButton = (company: Company) => {
+    setEditingCompany(company);
+    setIsModalOpen(true);
+  };
+
+  const handleUpdateCompany = (updatedCompany: Company) => {
+    setCompanies((prev) =>
+      prev.map((c) => (c.id === updatedCompany.id ? updatedCompany : c)),
+    );
+    setEditingCompany(null); // Clear the memory!
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <header className="flex justify-between items-center mb-10">
@@ -96,6 +111,8 @@ const Dashboard = () => {
             <AddCompanyForm
               onAdd={handleAddCompany}
               onClose={() => setIsModalOpen(false)}
+              initialData={editingCompany}
+              onUpdate={() => handleUpdateCompany}
             />
           </div>
         </div>
@@ -118,7 +135,11 @@ const Dashboard = () => {
 
         <div className="list-container">
           {displayList.map((company) => (
-            <CompanyCardView key={company.id} company={company} />
+            <CompanyCardView
+              key={company.id}
+              company={company}
+              onEdit={handleEditButton}
+            />
           ))}
         </div>
       </div>
