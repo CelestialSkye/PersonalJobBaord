@@ -1,11 +1,34 @@
+import { supabase } from "../lib/supabase";
 import { type Company } from "../types";
 
 type Props = {
   company: Company;
   onEdit: (company: Company) => void;
+  now: number;
 };
 
-const CompanyCard = ({ company, onEdit }: Props) => {
+const CompanyCard = ({ company, onEdit, now }: Props) => {
+  //this function indicatest last visited in the company datbase
+  const handleLastVisit = async () => {
+    const now = Date.now();
+
+    const { error } = await supabase
+      .from("companies")
+      .update({ lastchecked: now })
+      .eq("id", company.id);
+
+    if (error) {
+      console.error("Error update tiemstamp", error);
+    }
+  };
+
+  //24 hours calculation
+  const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+
+  const isStale =
+    !company.lastChecked ||
+    now - Number(company.lastChecked) > TWENTY_FOUR_HOURS;
+
   return (
     <div className="border-2 border-black p-4 bg-white mb-2">
       <div className="flex justify-between items-center">
@@ -13,11 +36,25 @@ const CompanyCard = ({ company, onEdit }: Props) => {
           <h3 className="font-bold text-lg">{company.name}</h3>
           <p className="text-xs text-gray-600">{company.location}</p>
           <p className="text-s text-black">{company.connection}</p>
+          <a
+            href={company.url}
+            target="_blank"
+            rel="noopener noreffer"
+            onClick={handleLastVisit}
+            className="underline font-bold text-sm"
+          >
+            VISIT POSTING
+          </a>
         </div>
 
         <div className="bg-black text-white px-2 py-1 text-xs font-bold uppercase">
           {company.status}
         </div>
+        {isStale && (
+          <span className="bg-red-500 text-white px-2 py-1 text-sm font-bold uppercase">
+            STALE
+          </span>
+        )}
       </div>
 
       <button

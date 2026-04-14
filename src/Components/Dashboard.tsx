@@ -16,6 +16,8 @@ const Dashboard = () => {
     setCompanies((prev) => [newCompany, ...prev]);
     setIsModalOpen(false);
   };
+  //Date now to pass to the company card component
+  const [now] = useState(() => Date.now());
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -147,6 +149,7 @@ const Dashboard = () => {
               key={company.id}
               company={company}
               onEdit={handleEditButton}
+              now={now}
             />
           ))}
         </div>
