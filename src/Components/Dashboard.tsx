@@ -11,13 +11,17 @@ const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   //editing company details
   const [editingCompany, setEditingCompany] = useState<Company | null>(null);
+  const [now, setNow] = useState(() => Date.now());
+  const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
   const handleAddCompany = (newCompany: Company) => {
     setCompanies((prev) => [newCompany, ...prev]);
     setIsModalOpen(false);
   };
-  //Date now to pass to the company card component
-  const [now] = useState(() => Date.now());
+
+  const isCompanyStale = (company: Company) =>
+    !company.lastChecked ||
+    now - Number(company.lastChecked) > TWENTY_FOUR_HOURS;
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -35,6 +39,15 @@ const Dashboard = () => {
 
     fetchCompanies();
   }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setNow(Date.now());
+    }, 60_000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   // if search query is empty display the whole list if not display whatever company name is in searchquery
   const displayList =
     searchQuery === ""
@@ -57,6 +70,7 @@ const Dashboard = () => {
   const interviewingCompanies = companies.filter(
     (c) => c.status === "Interviewing",
   ).length;
+  const staleCompanies = companies.filter(isCompanyStale).length;
 
   //editing company state
   const handleEditButton = (company: Company) => {
@@ -134,6 +148,7 @@ const Dashboard = () => {
       <h1>Watching Comapnies {watchingCompanies}</h1>
       <h1>Interviewing Comapnies {interviewingCompanies}</h1>
       <h1>Rejected Comapnies {rejectedCompanies}</h1>
+      <h1>Stale Comapnies {staleCompanies}</h1>
 
       <div>
         {/* Search input box */}
@@ -149,7 +164,7 @@ const Dashboard = () => {
               key={company.id}
               company={company}
               onEdit={handleEditButton}
-              now={now}
+              isStale={isCompanyStale(company)}
             />
           ))}
         </div>

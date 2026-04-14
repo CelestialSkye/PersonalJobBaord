@@ -4,10 +4,10 @@ import { type Company } from "../types";
 type Props = {
   company: Company;
   onEdit: (company: Company) => void;
-  now: number;
+  isStale: boolean;
 };
 
-const CompanyCard = ({ company, onEdit, now }: Props) => {
+const CompanyCard = ({ company, onEdit, isStale }: Props) => {
   //this function indicatest last visited in the company datbase
   const handleLastVisit = async () => {
     const now = Date.now();
@@ -21,13 +21,6 @@ const CompanyCard = ({ company, onEdit, now }: Props) => {
       console.error("Error update tiemstamp", error);
     }
   };
-
-  //24 hours calculation
-  const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
-
-  const isStale =
-    !company.lastChecked ||
-    now - Number(company.lastChecked) > TWENTY_FOUR_HOURS;
 
   return (
     <div className="border-2 border-black p-4 bg-white mb-2">
