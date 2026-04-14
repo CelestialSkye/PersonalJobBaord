@@ -1,0 +1,4 @@
+Known issues
+
+- the edit button modal says add company rahter than edit company
+- the update is visible only after refreshing rahter than it being live

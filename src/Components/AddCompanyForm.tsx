@@ -131,7 +131,7 @@ const AddCompanyForm = ({ onAdd, onClose, initialData, onUpdate }: Props) => {
         type="submit"
         className="bg-black text-white p-3 font-bold uppercase hover:bg-zinc-800 transition-all"
       >
-        Add Company
+        {initialData ? "Save Changes" : "ADd Company"}
       </button>
     </form>
   );

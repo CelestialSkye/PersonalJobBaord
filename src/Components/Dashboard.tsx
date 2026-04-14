@@ -78,7 +78,10 @@ const Dashboard = () => {
 
         {/* toggle button */}
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setEditingCompany(null);
+            setIsModalOpen(true);
+          }}
           className="bg-black text-white p-4 font-bold hover:scale-105 transition-transform"
         >
           + ADD NEW
@@ -109,10 +112,15 @@ const Dashboard = () => {
             </div>
 
             <AddCompanyForm
+              // This is the magic line. It forces the form to reset its internal state.
+              key={editingCompany?.id || "new-company"}
               onAdd={handleAddCompany}
-              onClose={() => setIsModalOpen(false)}
+              onUpdate={handleUpdateCompany} // Pass the function reference, not an arrow function
+              onClose={() => {
+                setIsModalOpen(false);
+                setEditingCompany(null); // Clean up memory when closing
+              }}
               initialData={editingCompany}
-              onUpdate={() => handleUpdateCompany}
             />
           </div>
         </div>
