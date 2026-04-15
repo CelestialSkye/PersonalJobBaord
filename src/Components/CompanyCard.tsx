@@ -44,8 +44,8 @@ const CompanyCard = ({ company, onEdit, isStale }: Props) => {
           {company.status}
         </div>
         {isStale && (
-          <span className="bg-red-500 text-white px-2 py-1 text-sm font-bold uppercase">
-            STALE
+          <span className="bg-yellow-500 text-white px-2 py-1 text-sm font-bold uppercase">
+            daily check
           </span>
         )}
       </div>

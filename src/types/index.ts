@@ -10,4 +10,6 @@ export interface Company {
     status:JobStatus;
     connection:ConnestionType;
     lastChecked:number;
+    last_noted_activity:number;
+    last_applied:number;
 }

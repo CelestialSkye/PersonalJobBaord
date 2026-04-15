@@ -12,13 +12,15 @@ const Dashboard = () => {
   //editing company details
   const [editingCompany, setEditingCompany] = useState<Company | null>(null);
   const [now, setNow] = useState(() => Date.now());
-  const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+
+  //24 hours counter for check again badge
+  const TWENTY_FOUR_HOURS: number = 24 * 60 * 60 * 1000;
 
   const handleAddCompany = (newCompany: Company) => {
     setCompanies((prev) => [newCompany, ...prev]);
     setIsModalOpen(false);
   };
-
+  //Company stale calculation
   const isCompanyStale = (company: Company) =>
     !company.lastChecked ||
     now - Number(company.lastChecked) > TWENTY_FOUR_HOURS;
