@@ -12,6 +12,8 @@ const Dashboard = () => {
   //editing company details
   const [editingCompany, setEditingCompany] = useState<Company | null>(null);
   const [now, setNow] = useState(() => Date.now());
+  //7 days counter for the stale badge
+  const STALE_THRESHOLD = 7 * 24 * 60 * 60 * 1000;
 
   //24 hours counter for check again badge
   const TWENTY_FOUR_HOURS: number = 24 * 60 * 60 * 1000;
@@ -20,10 +22,16 @@ const Dashboard = () => {
     setCompanies((prev) => [newCompany, ...prev]);
     setIsModalOpen(false);
   };
-  //Company stale calculation
-  const isCompanyStale = (company: Company) =>
+  //Company 24 hour calculation
+  const visitedLastDay = (company: Company) =>
     !company.lastChecked ||
     now - Number(company.lastChecked) > TWENTY_FOUR_HOURS;
+
+  //company is Stale calculation logic
+  const isCompanyStale = (company: Company) =>
+    company.status !== "Applied" &&
+    (!company.last_noted_activity ||
+      now - Number(company.last_noted_activity) > STALE_THRESHOLD);
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -72,7 +80,8 @@ const Dashboard = () => {
   const interviewingCompanies = companies.filter(
     (c) => c.status === "Interviewing",
   ).length;
-  const staleCompanies = companies.filter(isCompanyStale).length;
+  const dailyVisit = companies.filter(visitedLastDay).length;
+  const staleCount = companies.filter(isCompanyStale).length;
 
   //editing company state
   const handleEditButton = (company: Company) => {
@@ -102,6 +111,22 @@ const Dashboard = () => {
       console.error("Error updating timestamp", error);
     }
   };
+
+  //a function for startingt the stale counter
+  // const handleIsStale = async (companyId?: string) => {
+  //   if (!companyId) return;
+
+  //   const now = Date.now();
+
+  //   const { error } = await supabase
+  //     .from("companies")
+  //     .update({ last_noted_activity: now })
+  //     .eq("id", companyId);
+
+  //   if (error) {
+  //     console.error("Error update timestamp for Stale", error);
+  //   }
+  // };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -166,7 +191,8 @@ const Dashboard = () => {
       <h1>Watching Comapnies {watchingCompanies}</h1>
       <h1>Interviewing Comapnies {interviewingCompanies}</h1>
       <h1>Rejected Comapnies {rejectedCompanies}</h1>
-      <h1>Stale Comapnies {staleCompanies}</h1>
+      <h1>Daily Comapnies {dailyVisit}</h1>
+      <h1>Stale companies {staleCount}</h1>
 
       <div>
         {/* Search input box */}
@@ -182,8 +208,9 @@ const Dashboard = () => {
               key={company.id}
               company={company}
               onEdit={handleEditButton}
-              isStale={isCompanyStale(company)}
+              dailyVisit={visitedLastDay(company)}
               onVisit={handleLastVisit}
+              isStale={isCompanyStale(company)}
             />
           ))}
         </div>
