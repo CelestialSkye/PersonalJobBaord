@@ -1,27 +1,13 @@
-import { supabase } from "../lib/supabase";
 import { type Company } from "../types";
 
 type Props = {
   company: Company;
   onEdit: (company: Company) => void;
   isStale: boolean;
+  onVisit: (companyId?: string) => void;
 };
 
-const CompanyCard = ({ company, onEdit, isStale }: Props) => {
-  //this function indicatest last visited in the company datbase
-  const handleLastVisit = async () => {
-    const now = Date.now();
-
-    const { error } = await supabase
-      .from("companies")
-      .update({ lastchecked: now })
-      .eq("id", company.id);
-
-    if (error) {
-      console.error("Error update tiemstamp", error);
-    }
-  };
-
+const CompanyCard = ({ company, onEdit, isStale, onVisit }: Props) => {
   return (
     <div className="border-2 border-black p-4 bg-white mb-2">
       <div className="flex justify-between items-center">
@@ -33,7 +19,7 @@ const CompanyCard = ({ company, onEdit, isStale }: Props) => {
             href={company.url}
             target="_blank"
             rel="noopener noreffer"
-            onClick={handleLastVisit}
+            onClick={() => onVisit(company.id)}
             className="underline font-bold text-sm"
           >
             VISIT POSTING

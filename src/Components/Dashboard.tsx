@@ -87,6 +87,22 @@ const Dashboard = () => {
     setEditingCompany(null); // Clear the memory!
   };
 
+  //this function is for starting the timer for last clicking on the url
+  const handleLastVisit = async (companyId?: string) => {
+    if (!companyId) return;
+
+    const now = Date.now();
+
+    const { error } = await supabase
+      .from("companies")
+      .update({ lastChecked: now })
+      .eq("id", companyId);
+
+    if (error) {
+      console.error("Error updating timestamp", error);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <header className="flex justify-between items-center mb-10">
@@ -167,6 +183,7 @@ const Dashboard = () => {
               company={company}
               onEdit={handleEditButton}
               isStale={isCompanyStale(company)}
+              onVisit={handleLastVisit}
             />
           ))}
         </div>
