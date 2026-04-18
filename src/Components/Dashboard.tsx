@@ -96,6 +96,22 @@ const Dashboard = () => {
     setEditingCompany(null); // Clear the memory!
   };
 
+  //delete company logic
+  const handleDeleteCompany = async (companyId?: string) => {
+    if (!companyId) return;
+
+    const { error } = await supabase
+      .from("companies")
+      .delete()
+      .eq("id", companyId);
+
+    if (error) {
+      console.error("Supabase error:", error);
+      return;
+    }
+    setCompanies((prev) => prev.filter((c) => c.id !== companyId));
+  };
+
   //this function is for starting the timer for last clicking on the url
   const handleLastVisit = async (companyId?: string) => {
     if (!companyId) return;
@@ -211,6 +227,7 @@ const Dashboard = () => {
               dailyVisit={visitedLastDay(company)}
               onVisit={handleLastVisit}
               isStale={isCompanyStale(company)}
+              onDelete={handleDeleteCompany}
             />
           ))}
         </div>

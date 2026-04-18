@@ -6,6 +6,7 @@ type Props = {
   dailyVisit: boolean;
   onVisit: (companyId?: string) => void;
   isStale: boolean;
+  onDelete: (companyId?: string) => void;
 };
 
 const CompanyCard = ({
@@ -14,6 +15,7 @@ const CompanyCard = ({
   dailyVisit,
   onVisit,
   isStale,
+  onDelete,
 }: Props) => {
   return (
     <div className="border-2 border-black p-4 bg-white mb-2">
@@ -53,6 +55,12 @@ const CompanyCard = ({
         className="mt-2 text-xs underline text-blue-600"
       >
         Edit
+      </button>
+      <button
+        onClick={() => onDelete(company.id)}
+        className="mt-2 text-xs underline text-blue-600"
+      >
+        Delete
       </button>
     </div>
   );
