@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { type Company } from "../types";
 import { supabase } from "../lib/supabase";
 import CompanyCardView from "./CompanyCard";
+import SearchBar from "./SearchBar";
+import AddCompanyButton from "./AddCompanyButton";
 
 const Dashboard = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -152,7 +154,7 @@ const Dashboard = () => {
         </h1>
 
         {/* toggle button */}
-        <button
+        <AddCompanyButton
           onClick={() => {
             setEditingCompany(null);
             setIsModalOpen(true);
@@ -160,7 +162,8 @@ const Dashboard = () => {
           className="bg-black text-white p-4 font-bold hover:scale-105 transition-transform"
         >
           + ADD NEW
-        </button>
+        </AddCompanyButton>
+
         {/* Search input
 
         <input
@@ -212,11 +215,12 @@ const Dashboard = () => {
 
       <div>
         {/* Search input box */}
-        <input
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="SEARCH..."
-        />
+        <div className="flex flex-col gap-8">
+          <SearchBar
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
 
         <div className="list-container">
           {displayList.map((company) => (
