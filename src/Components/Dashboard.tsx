@@ -6,6 +6,7 @@ import CompanyCardView from "./CompanyCard";
 import SearchBar from "./SearchBar";
 import AddCompanyButton from "./AddCompanyButton";
 import { IoMdAdd } from "react-icons/io"; // React add icon
+import CompanyStatusBadge from "./CompanyStatusBadge";
 
 const Dashboard = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -150,8 +151,8 @@ const Dashboard = () => {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <header className="flex justify-between items-center mb-10">
-        <h1 className="text-5xl font-black uppercase tracking-tighter">
-          Tracker
+        <h1 className="text-4xl font-black uppercase tracking-tighter">
+          WatchList
         </h1>
 
         {/* toggle button */}
@@ -222,6 +223,29 @@ const Dashboard = () => {
         <h1>Rejected Comapnies {rejectedCompanies}</h1>
         <h1>Daily Comapnies {dailyVisit}</h1>
         <h1>Stale companies {staleCount}</h1>
+
+        <div className="bg-zinc-200 border-none  p-6 flex flex-row gap-4 ">
+          <CompanyStatusBadge
+            label="Total Companies"
+            count={totalCompanies}
+            color="text-red-500"
+          />
+          <CompanyStatusBadge
+            label="Applied Companies"
+            count={appliedComapnes}
+            color="text-red-500"
+          />
+          <CompanyStatusBadge
+            label="Watching"
+            count={watchingCompanies}
+            color="text-red-500"
+          />
+          <CompanyStatusBadge
+            label="Interviewing"
+            count={interviewingCompanies}
+            color="text-red-500"
+          />
+        </div>
 
         <div className="list-container">
           {displayList.map((company) => (
