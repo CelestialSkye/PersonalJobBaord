@@ -5,6 +5,7 @@ import { supabase } from "../lib/supabase";
 import CompanyCardView from "./CompanyCard";
 import SearchBar from "./SearchBar";
 import AddCompanyButton from "./AddCompanyButton";
+import { IoMdAdd } from "react-icons/io"; // React add icon
 
 const Dashboard = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -154,15 +155,6 @@ const Dashboard = () => {
         </h1>
 
         {/* toggle button */}
-        <AddCompanyButton
-          onClick={() => {
-            setEditingCompany(null);
-            setIsModalOpen(true);
-          }}
-          className="bg-black text-white p-4 font-bold hover:scale-105 transition-transform"
-        >
-          + ADD NEW
-        </AddCompanyButton>
 
         {/* Search input
 
@@ -204,23 +196,32 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* companies list */}
-      <h1>Total Comapnies {totalCompanies}</h1>
-      <h1>Applied Comapnies {appliedComapnes}</h1>
-      <h1>Watching Comapnies {watchingCompanies}</h1>
-      <h1>Interviewing Comapnies {interviewingCompanies}</h1>
-      <h1>Rejected Comapnies {rejectedCompanies}</h1>
-      <h1>Daily Comapnies {dailyVisit}</h1>
-      <h1>Stale companies {staleCount}</h1>
-
       <div>
         {/* Search input box */}
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-row gap-4">
           <SearchBar
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+          <AddCompanyButton
+            onClick={() => {
+              setEditingCompany(null);
+              setIsModalOpen(true);
+            }}
+            className="bg-blue-600 text-white p-4 h-12 flex items-center justify-center"
+          >
+            <IoMdAdd size={24} />
+          </AddCompanyButton>
         </div>
+
+        {/* companies list */}
+        <h1>Total Comapnies {totalCompanies}</h1>
+        <h1>Applied Comapnies {appliedComapnes}</h1>
+        <h1>Watching Comapnies {watchingCompanies}</h1>
+        <h1>Interviewing Comapnies {interviewingCompanies}</h1>
+        <h1>Rejected Comapnies {rejectedCompanies}</h1>
+        <h1>Daily Comapnies {dailyVisit}</h1>
+        <h1>Stale companies {staleCount}</h1>
 
         <div className="list-container">
           {displayList.map((company) => (
