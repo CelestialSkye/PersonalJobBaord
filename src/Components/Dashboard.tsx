@@ -224,14 +224,15 @@ const Dashboard = () => {
         <h1>Daily Comapnies {dailyVisit}</h1>
         <h1>Stale companies {staleCount}</h1>
 
-        <div className="bg-zinc-200 border-none  p-6 flex flex-row gap-4 ">
+        <div className="bg-zinc-200 border-none py-3 px-6 flex flex-row gap-4 overflow-x-auto items-center">
           <CompanyStatusBadge
-            label="Total Companies"
+            label="Total"
             count={totalCompanies}
             color="text-red-500"
           />
+          <div className="w-[2px] h-10 bg-black opacity-30" />
           <CompanyStatusBadge
-            label="Applied Companies"
+            label="Applied"
             count={appliedComapnes}
             color="text-red-500"
           />
@@ -243,6 +244,21 @@ const Dashboard = () => {
           <CompanyStatusBadge
             label="Interviewing"
             count={interviewingCompanies}
+            color="text-red-500"
+          />
+          <CompanyStatusBadge
+            label="Rejected"
+            count={rejectedCompanies}
+            color="text-red-500"
+          />
+          <CompanyStatusBadge
+            label="Daily"
+            count={dailyVisit}
+            color="text-red-500"
+          />
+          <CompanyStatusBadge
+            label="Stale"
+            count={staleCount}
             color="text-red-500"
           />
         </div>

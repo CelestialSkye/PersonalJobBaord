@@ -10,9 +10,13 @@ const CompanyStatusBadge = ({
   color,
 }: CompanyStatusBadgeProps) => {
   return (
-    <div className={`flex flex-col gap-2 items-center items-start ${color}  `}>
-      <span>{label}</span>
-      <span>{count}</span>
+    <div
+      className={`flex flex-col gap-2 items-start flex-1 ${color} uppercase`}
+    >
+      <span className="font-body text-xs font-semibold tracking-widest">
+        {label}
+      </span>
+      <span className="font-headline text-lg font-bold">{count}</span>
     </div>
   );
 };
