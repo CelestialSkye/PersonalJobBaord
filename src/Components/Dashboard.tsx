@@ -216,50 +216,60 @@ const Dashboard = () => {
         </div>
 
         {/* companies list */}
-        <h1>Total Comapnies {totalCompanies}</h1>
+        {/* <h1>Total Comapnies {totalCompanies}</h1>
         <h1>Applied Comapnies {appliedComapnes}</h1>
         <h1>Watching Comapnies {watchingCompanies}</h1>
         <h1>Interviewing Comapnies {interviewingCompanies}</h1>
         <h1>Rejected Comapnies {rejectedCompanies}</h1>
         <h1>Daily Comapnies {dailyVisit}</h1>
-        <h1>Stale companies {staleCount}</h1>
+        <h1>Stale companies {staleCount}</h1> */}
 
-        <div className="bg-zinc-200 border-none py-3 px-6 flex flex-row gap-4 overflow-x-auto items-center">
+        <div className="bg-zinc-200 border-none py-3 px-6 flex flex-row gap-4 overflow-x-auto items-center mb-4 mt-4">
           <CompanyStatusBadge
             label="Total"
             count={totalCompanies}
-            color="text-red-500"
+            color="text-yellow-500"
           />
-          <div className="w-[2px] h-10 bg-black opacity-30" />
+          <div className="w-0.5 h-10 bg-black opacity-20 shrink-0" />
           <CompanyStatusBadge
             label="Applied"
             count={appliedComapnes}
-            color="text-red-500"
+            color="text-green-500"
           />
+          <div className="w-0.5 h-10 bg-black opacity-20 shrink-0" />
+
           <CompanyStatusBadge
             label="Watching"
             count={watchingCompanies}
-            color="text-red-500"
+            color="text-purple-500"
           />
+          <div className="w-0.5 h-10 bg-black opacity-20 shrink-0" />
+
           <CompanyStatusBadge
             label="Interviewing"
             count={interviewingCompanies}
-            color="text-red-500"
+            color="text-black-500"
           />
+          <div className="w-0.5 h-10 bg-black opacity-20 shrink-0" />
+
           <CompanyStatusBadge
             label="Rejected"
             count={rejectedCompanies}
-            color="text-red-500"
+            color="text-orange-500"
           />
+          <div className="w-0.5 h-10 bg-black opacity-20 shrink-0" />
+
           <CompanyStatusBadge
             label="Daily"
             count={dailyVisit}
-            color="text-red-500"
+            color="text-blue-500"
           />
+          <div className="w-0.5 h-10 bg-black opacity-20 shrink-0" />
+
           <CompanyStatusBadge
             label="Stale"
             count={staleCount}
-            color="text-red-500"
+            color="text-pink-500"
           />
         </div>
 
