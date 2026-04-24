@@ -216,15 +216,15 @@ const Dashboard = () => {
         </div>
 
         {/* companies list */}
-        <h1>Total Comapnies {totalCompanies}</h1>
+        {/* <h1>Total Comapnies {totalCompanies}</h1>
         <h1>Applied Comapnies {appliedComapnes}</h1>
         <h1>Watching Comapnies {watchingCompanies}</h1>
         <h1>Interviewing Comapnies {interviewingCompanies}</h1>
         <h1>Rejected Comapnies {rejectedCompanies}</h1>
         <h1>Daily Comapnies {dailyVisit}</h1>
-        <h1>Stale companies {staleCount}</h1>
+        <h1>Stale companies {staleCount}</h1> */}
 
-        <div className="bg-zinc-200 border-none py-3 px-6 flex flex-row gap-4 overflow-x-auto items-center">
+        <div className="bg-zinc-200 border-none py-3 px-6 flex flex-row gap-4 overflow-x-auto scrollbar-hide items-center mb-4 mt-4 scrollbar-hide">
           <CompanyStatusBadge
             label="Total"
             count={totalCompanies}
