@@ -39,7 +39,10 @@ const CompanyCard = ({
   const accentColor = useMemo(() => getColorFromId(company.id), [company.id]);
 
   return (
-    <div className="flex flex-row mb-4 bg-white">
+    <div
+      className="flex flex-row mb-4 bg-white md:grid-cols-2 lg:grid-cols-3
+"
+    >
       <div
         className="w-1 self-stretch"
         style={{ backgroundColor: accentColor }}

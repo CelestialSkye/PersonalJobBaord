@@ -149,7 +149,7 @@ const Dashboard = () => {
   // };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-5xl mx-auto p-6">
       <header className="flex justify-between items-center mb-10">
         <h1 className="text-4xl font-black uppercase tracking-tighter">
           WatchList
@@ -273,7 +273,7 @@ const Dashboard = () => {
           />
         </div>
 
-        <div className="list-container">
+        <div className="list-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {displayList.map((company) => (
             <CompanyCardView
               key={company.id}
