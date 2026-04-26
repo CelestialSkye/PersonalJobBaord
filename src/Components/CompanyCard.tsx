@@ -1,4 +1,7 @@
+import { useMemo } from "react";
 import { type Company } from "../types";
+import { FaEdit } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
 
 type Props = {
   company: Company;
@@ -9,6 +12,22 @@ type Props = {
   onDelete: (companyId?: string) => void;
 };
 
+const colorsArray = [
+  "#E07A5F", // terracotta
+  "#F2A65A", // warm amber
+  "#D4845A", // burnt sienna
+  "#C97B4B", // caramel
+  "#E8B86D", // golden sand
+  "#B5614A", // rust
+] as const;
+
+type BrutalColor = (typeof colorsArray)[number];
+
+const getColorFromId = (id: string = ""): BrutalColor => {
+  const hash = id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return colorsArray[hash % colorsArray.length];
+};
+
 const CompanyCard = ({
   company,
   onEdit,
@@ -17,9 +36,14 @@ const CompanyCard = ({
   isStale,
   onDelete,
 }: Props) => {
+  const accentColor = useMemo(() => getColorFromId(company.id), [company.id]);
+
   return (
-    <div className="flex flex-row mb-2 bg-zinc-200">
-      <div className="w-1 self-stretch bg-red-500" />
+    <div className="flex flex-row mb-4 bg-white">
+      <div
+        className="w-1 self-stretch"
+        style={{ backgroundColor: accentColor }}
+      />
       <div className="flex flex-col flex-1 p-4">
         <div className="flex flex-row justify-between items-center">
           <p className="text-s text-gray-600">{company.location}</p>
@@ -30,7 +54,7 @@ const CompanyCard = ({
             </span>
           )}
         </div>
-        <div className="flex flex-row gap-x-2 items-center mt-1  ">
+        <div className="flex flex-row gap-x-2 items-center   ">
           <h3 className="font-bold text-lg">{company.name}</h3>
 
           <p className="text-s text-black">{company.connection}</p>
@@ -63,15 +87,15 @@ const CompanyCard = ({
           <div className="flex gap-1">
             <button
               onClick={() => onEdit(company)}
-              className="mt-2 text-white text-xs bg-blue-500 p-2 "
+              className="mt-2 text-white  text-xs bg-blue-500 p-2 "
             >
-              Edit
+              <FaEdit />
             </button>
             <button
               onClick={() => onDelete(company.id)}
               className="mt-2 text-white text-xs bg-red-500 p-2"
             >
-              Delete
+              <MdDeleteForever />
             </button>
           </div>
         </div>
