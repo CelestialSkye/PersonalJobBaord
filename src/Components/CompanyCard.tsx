@@ -18,50 +18,64 @@ const CompanyCard = ({
   onDelete,
 }: Props) => {
   return (
-    <div className="border-2 border-black p-4 bg-white mb-2">
-      <div className="flex justify-between items-center">
-        <div>
+    <div className="flex flex-row mb-2 bg-zinc-200">
+      <div className="w-1 self-stretch bg-red-500" />
+      <div className="flex flex-col flex-1 p-4">
+        <div className="flex flex-row justify-between items-center">
+          <p className="text-s text-gray-600">{company.location}</p>
+
+          {isStale && (
+            <span className="bg-red-500 text-white px-2 py-1 text-sm font-bold uppercase">
+              stale
+            </span>
+          )}
+        </div>
+        <div className="flex flex-row gap-x-2 items-center mt-1  ">
           <h3 className="font-bold text-lg">{company.name}</h3>
-          <p className="text-xs text-gray-600">{company.location}</p>
+
           <p className="text-s text-black">{company.connection}</p>
+        </div>
+        <p className="text-xs text-gray-500">
+          {new Date(company.lastChecked).toLocaleString()}
+        </p>
+        <div className="flex flex-row gap-x-2 items-center mt-1">
+          {dailyVisit && (
+            <span className="bg-yellow-500 text-white px-2 py-1 text-xs font-bold uppercase">
+              daily check
+            </span>
+          )}
+
+          <div className="bg-black text-white px-2 py-1 text-xs font-bold uppercase">
+            {company.status}
+          </div>
+        </div>
+
+        <div className="flex flex-row gap-x-4 justify-between items-center">
           <a
             href={company.url}
             target="_blank"
             rel="noopener noreffer"
             onClick={() => onVisit(company.id)}
-            className="underline font-bold text-sm"
+            className="font-bold text-white text-sm bg-blue-500 p-2 mt-2"
           >
-            VISIT POSTING
+            VIEW POSTING
           </a>
+          <div className="flex gap-1">
+            <button
+              onClick={() => onEdit(company)}
+              className="mt-2 text-white text-xs bg-blue-500 p-2 "
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => onDelete(company.id)}
+              className="mt-2 text-white text-xs bg-red-500 p-2"
+            >
+              Delete
+            </button>
+          </div>
         </div>
-
-        <div className="bg-black text-white px-2 py-1 text-xs font-bold uppercase">
-          {company.status}
-        </div>
-        {dailyVisit && (
-          <span className="bg-yellow-500 text-white px-2 py-1 text-sm font-bold uppercase">
-            daily check
-          </span>
-        )}
-        {isStale && (
-          <span className="bg-red-500 text-white px-2 py-1 text-sm font-bold uppercase">
-            stale
-          </span>
-        )}
       </div>
-
-      <button
-        onClick={() => onEdit(company)}
-        className="mt-2 text-xs underline text-blue-600"
-      >
-        Edit
-      </button>
-      <button
-        onClick={() => onDelete(company.id)}
-        className="mt-2 text-xs underline text-blue-600"
-      >
-        Delete
-      </button>
     </div>
   );
 };
