@@ -129,7 +129,11 @@ const Dashboard = () => {
 
     if (error) {
       console.error("Error updating timestamp", error);
+      return;
     }
+    setCompanies((prev) =>
+      prev.map((c) => (c.id === companyId ? { ...c, lastChecked: now } : c)),
+    );
   };
 
   //a function for startingt the stale counter
