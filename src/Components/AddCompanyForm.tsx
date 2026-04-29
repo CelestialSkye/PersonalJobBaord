@@ -103,9 +103,9 @@ const AddCompanyForm = ({ onAdd, onClose, initialData, onUpdate }: Props) => {
           className="w-full p-2 border rounded border-black bg-white"
         >
           <option value="Watching">Watching</option>
-          <option value="Applied">Applied</option>
+          {/* <option value="Applied">Applied</option> */}
           <option value="Interviewing">Interviewing</option>
-          <option value="Rejected">Rejected</option>
+          {/* <option value="Rejected">Rejected</option> */}
         </select>
       </div>
 

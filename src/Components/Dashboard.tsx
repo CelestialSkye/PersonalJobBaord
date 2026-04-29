@@ -36,7 +36,7 @@ const Dashboard = () => {
 
   //company is Stale calculation logic
   const isCompanyStale = (company: Company) =>
-    company.status !== "Applied" &&
+    company.status !== "Interviewing" &&
     (!company.last_noted_activity ||
       now - Number(company.last_noted_activity) > STALE_THRESHOLD);
 
@@ -75,9 +75,9 @@ const Dashboard = () => {
 
   //Dashboard geneal information
   const totalCompanies = companies.length;
-  const appliedComapnes = companies.filter(
-    (c) => c.status === "Applied",
-  ).length;
+  // const appliedComapnes = companies.filter(
+  //   (c) => c.status === "Applied",
+  // ).length;
   const watchingCompanies = companies.filter(
     (c) => c.status === "Watching",
   ).length;
@@ -247,12 +247,12 @@ const Dashboard = () => {
             color="text-yellow-500"
           />
           <div className="w-0.5 h-10 bg-black opacity-20 shrink-0" />
-          <CompanyStatusBadge
+          {/* <CompanyStatusBadge
             label="Applied"
             count={appliedComapnes}
             color="text-green-500"
-          />
-          <div className="w-0.5 h-10 bg-black opacity-20 shrink-0" />
+          /> */}
+          {/* <div className="w-0.5 h-10 bg-black opacity-20 shrink-0" /> */}
 
           <CompanyStatusBadge
             label="Watching"
