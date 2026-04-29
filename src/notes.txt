@@ -1,5 +1,5 @@
-Known issues
-
-- the edit button modal says add company rahter than edit company
-- the update is visible only after refreshing rahter than it being live\
-- delete button
+- Modal for deleteing a company
+- Remove some some statuses like Rejected etc..
+- Switch to a Component Library
+- Implememnt a footprint jobs system to know what i applied to
+ 

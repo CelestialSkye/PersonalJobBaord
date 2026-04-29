@@ -7,6 +7,7 @@ import SearchBar from "./SearchBar";
 import AddCompanyButton from "./AddCompanyButton";
 import { IoMdAdd } from "react-icons/io"; // React add icon
 import CompanyStatusBadge from "./CompanyStatusBadge";
+import DeleteModal from "./DeleteModal"; // opens delete moda
 
 const Dashboard = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -21,6 +22,8 @@ const Dashboard = () => {
 
   //24 hours counter for check again badge
   const TWENTY_FOUR_HOURS: number = 24 * 60 * 60 * 1000;
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [companyToDelete, setCompanyToDelete] = useState<Company | null>(null);
 
   const handleAddCompany = (newCompany: Company) => {
     setCompanies((prev) => [newCompany, ...prev]);
@@ -100,20 +103,29 @@ const Dashboard = () => {
     setEditingCompany(null); // Clear the memory!
   };
 
-  //delete company logic
-  const handleDeleteCompany = async (companyId?: string) => {
-    if (!companyId) return;
+  // opens the modal and stores which company to delete
+  const handleRequestDelete = (companyId?: string) => {
+    const company = companies.find((c) => c.id === companyId) ?? null;
+    setCompanyToDelete(company);
+    setIsDeleteModalOpen(true);
+  };
+
+  // called when user confirms in the modal
+  const handleConfirmDelete = async () => {
+    if (!companyToDelete) return;
 
     const { error } = await supabase
       .from("companies")
       .delete()
-      .eq("id", companyId);
+      .eq("id", companyToDelete.id);
 
     if (error) {
       console.error("Supabase error:", error);
       return;
     }
-    setCompanies((prev) => prev.filter((c) => c.id !== companyId));
+    setCompanies((prev) => prev.filter((c) => c.id !== companyToDelete.id));
+    setCompanyToDelete(null);
+    setIsDeleteModalOpen(false);
   };
 
   //this function is for starting the timer for last clicking on the url
@@ -286,11 +298,21 @@ const Dashboard = () => {
               dailyVisit={visitedLastDay(company)}
               onVisit={handleLastVisit}
               isStale={isCompanyStale(company)}
-              onDelete={handleDeleteCompany}
+              onDelete={handleRequestDelete}
             />
           ))}
         </div>
       </div>
+
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        company={companyToDelete}
+        onConfirm={handleConfirmDelete}
+        onClose={() => {
+          setIsDeleteModalOpen(false);
+          setCompanyToDelete(null);
+        }}
+      />
     </div>
   );
 };
